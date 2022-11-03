@@ -1,0 +1,256 @@
+<?php
+    $serveur = "localhost";
+    $dbname = "garage";
+    $user = "root";
+    $pass = "";
+    
+    $prenom = $_POST["prenom"];
+	$nom = $_POST["nom"];
+	$mail = $_POST["email"];
+	$titre = $_POST["titre"];
+	$immatriculation = $_POST["immatriculation"];
+    $marque = $_POST["marque"];
+    $modele = $_POST["modele"];
+	$datecirculation = $_POST["datecirculation"];
+	$prix = $_POST["prix"];
+	$dategarage = $_POST["dategarage"];
+    $chevaux = $_POST["chevaux"];
+	$descrirption = $_POST["descrirption"];
+	$image = $_POST["image"];
+    
+    try{
+        //On se connecte à la BDD
+        $dbco = new PDO("mysql:host=$serveur;dbname=$dbname",$user,$pass);
+        $dbco->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        //On insère les données reçues
+        $sth = $dbco->prepare("
+            INSERT INTO annonces(prenom, nom, email, titre, immatriculation, marque, modele, datecirculation, prix, dategarage, chevaux, description, image)
+            VALUES(:prenom, :nom, :email, :titre, :immatriculation, :marque, :modele, :datecirculation, :prix, :dategarage, :chevaux, :description, :image)");
+        $sth->bindParam(':prenom',$prenom);
+		$sth->bindParam(':nom',$nom);
+        $sth->bindParam(':email',$mail);
+		$sth->bindParam(':titre',$titre);
+		$sth->bindParam(':immatriculation',$immatriculation);
+		$sth->bindParam(':marque',$marque);
+		$sth->bindParam(':modele',$modele);
+		$sth->bindParam(':datecirculation',$datecirculation);
+		$sth->bindParam(':prix',$prix);
+		$sth->bindParam(':dategarage',$dategarage);
+		$sth->bindParam(':chevaux',$chevaux);
+        $sth->bindParam(':description',$description);
+        $sth->bindParam(':image',$image);
+        $sth->execute();
+        
+        //On renvoie l'utilisateur vers la page de remerciement
+        header("Location:merci.html");
+    }
+    catch(PDOException $e){
+        echo 'Impossible de traiter les données. Erreur : '.$e->getMessage();
+    }
+?>
+
+
+
+<?php
+
+$host = 'localhost';
+$dbname = 'garage';
+$username = 'root';
+$password = '';
+
+if(isset($_POST['insert'])){
+
+  try {
+  // se connecter à mysql
+  $pdo = new PDO("mysql:host=$host;dbname=$dbname","$username","$password");
+  } catch (PDOException $exc) {
+    echo $exc->getMessage();
+    exit();
+  }
+
+  // récupérer les valeurs 
+  $prenom = $_POST['prenom'];
+  $nom = $_POST['nom'];
+  $email = $_POST['email'];
+  $titre = $_POST['titre'];
+  $immatriculation = $_POST['immatriculation'];
+  $marque = $_POST['marque'];
+  $modele = $_POST['modele'];
+  $datecirculation = $_POST['datecirculation'];
+  $prix = $_POST['prix'];
+  $dategarage = $_POST['dategarage'];
+  $chevaux = $_POST['chevaux'];
+  $description = $_POST['description'];
+  $image = $_POST['image'];
+
+  // Requête mysql pour insérer des données
+  $sql = "INSERT INTO `annonces`(`prenom`, `nom`, `email`, `titre`, `immatriculation`, `marque`, `modele`, `datecirculation`, `prix`, `dategarage`, `chevaux`, `description`, `image`) VALUES (:prenom,:nom,:email,:titre,:immatriculation,:marque,:modele,:datecirculation,:prix,:dategarage,:chevaux,:description,:image)";
+  $res = $pdo->prepare($sql);
+  $exec = $res->execute(array(":prenom"=>$prenom,":nom"=>$nom,":email"=>$email,":titre"=>$titre,":immatriculation"=>$immatriculation,":marque"=>$marque,":modele"=>$modele,":datecirculation"=>$datecirculation,":prix"=>$prix,":dategarage"=>$dategarage,":chevaux"=>$chevaux,":description"=>$description,":image"=>image));
+
+  // vérifier si la requête d'insertion a réussi
+  if($exec){
+    echo 'Données insérées';
+  }else{
+    echo "Échec de l'opération d'insertion";
+  }
+}
+?>
+
+
+
+<?php
+include('config.php');
+
+$insert = $db->prepare('INSERT INTO annonces ('prenom', 'nom', 'email', 'titre', 'immatriculation', 'marque', 'modele', 'datecirculation', 'prix', 'dategarage', 'chevaux', 'description', 'image') VALUES (:prenom, :nom, :email, :titre, :immatriculation, :marque, :modele, :datecirculation, :prix, :dategarage, :chevaux, :description, :image)');
+$insert->execute(array('prenom' => $_post['prenom'], 'nom' => $_post['nom'], 'email' => $_post['email'], 'titre' => $_post['titre']));
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>GARAGE LUCAS</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#!">Garage Lucas</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index_.html">Accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="apropos.html">A propos</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="produit.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Boutique</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="">Produit</a> b</li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href=""></a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html">Conctat</a></li>
+                    </ul>
+                    <form class="d-flex" action="administration/connexion.php">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="icon-user"></i> 
+                            Connexion
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="bg-dark py-5" style="background-image: url(https://i.ibb.co/4d8CYtM/background-header.jpg);">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">GARAGE AUTOMOBILE </h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Réparation et vente de voiture d'occasion</p>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-5">
+            Formulaire bien envoyé !
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container" style="color: #fff;">
+                <div class="row">
+                <div class="col-md-4">
+                <h3 style="color: #fff;">Navigation simplifié</h1>
+                    <ul>
+                        <li><href="index_.html">Accueil</a></li>
+                        <li><href="apropos.html">A propos</a></li>
+                        <li><href="produit.html">Produit</a></li>
+                        <li><href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                <h3 style="color: #fff;">Adresse</h1>
+                </div>
+                <div class="col-md-4">
+                <h3 style="color: #fff;">Nous suivre sur Facebook</h1>  
+                </div>
+                </div>
+            </div>
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+		
+		<form action="boutique.php" method="post">
+              <div class="form-row">
+               <div class="col">
+               <input type="text" class="form-control" placeholder="Prénom(s)" name="prenom">
+              </div>
+              <div class="col">
+              <input type="text" class="form-control" placeholder="Nom(s)" name="nom">
+              </div>
+              </div>
+			  <br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Votre adresse email:</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Titre de l'annonce" name="email">
+              </div><br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>TITRE DE L'ANNONCE</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Titre de l'annonce" name="titre">
+              </div><br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Numéro d’immatriculation :</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Numéro d'immatriculation" name="immatriculation">
+              </div><br/>
+			    <div class="form-group">
+              <label for="inputAddress2"><strong>Marque du véhicule :</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Marque" name="marque">
+              </div><br/>
+			  
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Modèle :</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Modèle" name="modele">
+              </div><br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Première date de mise en circulation :</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Date de mise en circulation" name="datecirculation">
+              </div><br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Prix du véhicule :</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Prix du véhicule" name="prix">
+              </div><br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Date d'entrée au garage:</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Date d'entrée au garage" name="dategarage">
+              </div><br/>
+			  <div class="form-group">
+              <label for="inputAddress2"><strong>Nombre de chevaux fiscaux:</strong></label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Puissance fiscale" name="fiscale">
+              </div><br/>
+			  <div class="form-group">
+    <label for="exampleFormControlTextarea1"><strong>Description</strong></label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div><br/>
+			   <div class="form-group">
+                 <label for="exampleFormControlFile1"></label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1" name="image">
+  </div><br/>
+			  <button class="btn btn-primary" type="submit">PUBLIEZ</button>
+         </form>
+    </body>
+</html>
