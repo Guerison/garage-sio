@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html>
+<head>
 <script>
 function setCookie(cname,cvalue,exdays) {
   const d = new Date();
@@ -27,10 +30,15 @@ function checkCookie() {
   if (user != "") {
     alert("Welcome again " + user);
   } else {
-     user = prompt("Please enter your name:","");
+     user = prompt("Votre nom s'il vous plait:","");
      if (user != "" && user != null) {
        setCookie("username", user, 30);
      }
   }
 }
 </script>
+</head>
+
+<body onload="checkCookie()"></body>
+
+</html>
