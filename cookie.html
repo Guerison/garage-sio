@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <form>
+  <div>
+    <input type="checkbox" id="terms" required>
+    <label for="terms">Oui, j'accepte le cookie.</label>
+    <br>
+        <input type="checkbox" id="terms" required>
+        <label for="terms">Non je n'accepte pas le cookie.</label>
+  </div>
+  <div>
+    <button type="proceed">Accéder au site</button>
+  </div>
+</form>
 <script>
 function setCookie(cname,cvalue,exdays) {
   const d = new Date();
